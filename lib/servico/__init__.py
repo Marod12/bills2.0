@@ -2,6 +2,7 @@
 import json
 import random
 import datetime
+from lib.arquivo import *
 from lib.interface import *
 from lib.bd import *
 
@@ -376,4 +377,20 @@ def deleteServico(data):
     if question == 'S':
         #Retorna a resposta do bd
         deleteService(data)
-        
+
+
+## BackUP ##
+# Insere um backup
+def inserirBackup():
+    arqInport = str(input(cor('white+')+ f"{' '*4}Digite o nome do arquivo: " + cor('reset')))
+    arqInport = './' + arqInport + '.txt'
+
+    insertBackup(arqInport)
+
+
+# Faz um backup
+def fazerBackup():
+    arqExport = str(input(cor('white+')+ f"{' '*4}Digite o nome do arquivo: " + cor('reset')))
+    arqExport = './' + arqExport + '.txt'
+
+    fazBackup(arqExport)

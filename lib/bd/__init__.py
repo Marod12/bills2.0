@@ -4,6 +4,7 @@ import datetime
 import json
 from lib.cryp import *
 from lib.interface import *
+from lib.arquivo import *
 
 #data utc
 nowUtc = datetime.datetime.utcnow()
@@ -94,7 +95,36 @@ def deleteService(data):
     #retorno do delete
     printColorido(data[1], "cyan", 1)
     printColorido('deletado com SUCESSO!', "green+")
-    
+
+
+## BackUP ##
+def insertBackup(name):
+    data = abrirBackup(name)
+    dados = decryp(data)
+
+    servicos = []
+
+    for i in dados:
+        servico = (f'{i[0]}', f'{i[1]}', f'{nowUtc}')
+        servicos.append(servico)
+
+    cursor.executemany('INSERT INTO services (name, data, createIn) VALUES (?, ?, ?)' , servicos)
+    conn.commit()
+    #retorno do insert
+    printColorido(f'{cursor.rowcount} - serviços', "cyan", 1)
+    printColorido('inseridos com SUCESSO!', "green+")
+
+
+def fazBackup(name):
+    cursor.execute('SELECT name, data FROM services')
+    data = cursor.fetchall()
+
+    #Encripta data para ser salva em um arquivo
+    data = cryp(data).decode('utf-8')
+
+    salvarBackup(name, data) #salva data em um arquivo com nome dado
+    printColorido('Backup efetuado com SUCESSO!', "green+", 1)    
+
 
 def fecharConexao():
     cursor.close()
