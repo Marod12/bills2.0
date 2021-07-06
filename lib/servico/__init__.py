@@ -181,7 +181,7 @@ def verDados(data):
         printColorido('há', "gray")
         #Condição para mostrar quanto tempo faz que foi atualizado
         if semanas > 0:
-            printColorido(f'{semanas} semanas e {dias} dias', "gray")
+            printColorido(f'{semanas} semanas e {dias % 7} dias', "gray")
         elif dias > 0:
             printColorido(f'{dias} dias e {horas} horas', "gray")
         elif horas > 0:
